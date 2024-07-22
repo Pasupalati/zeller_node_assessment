@@ -1,32 +1,24 @@
-import { Product } from '../models/product';
-
-export interface PricingRule {
-  apply: (items: Product[]) => number;
-}
-
-export class AppleTvPricingRule implements PricingRule {
-  apply(items: Product[]): number {
-    const atvItems = items.filter(item => item.sku === 'atv');
-    const atvCount = atvItems.length;
-    const discountedCount = Math.floor(atvCount / 3) * 2 + (atvCount % 3);
-    const pricePerUnit = atvItems[0]?.price || 0;
-    return discountedCount * pricePerUnit;
+export interface PricingRules {
+    [sku: string]: {
+      price: number;
+      rules?: (count: number) => number; // Optional function to apply rules
+    };
   }
-}
-
-export class IpadPricingRule implements PricingRule {
-  apply(items: Product[]): number {
-    const ipdItems = items.filter(item => item.sku === 'ipd');
-    const ipdCount = ipdItems.length;
-    const pricePerUnit = ipdItems[0]?.price || 0;
-    if (ipdCount > 4) {
-      return ipdCount * 499.99;
-    }
-    return ipdCount * pricePerUnit;
-  }
-}
-
-export const pricingRules: PricingRule[] = [
-  new AppleTvPricingRule(),
-  new IpadPricingRule(),
-];
+  
+  export const pricingRules: PricingRules = {
+    ipd: {
+      price: 499.99,
+      rules: (count) => Math.floor(count / 5) * 4 + (count % 5),
+    },
+    mbp: {
+      price: 1399.99,
+    },
+    atv: {
+      price: 109.50,
+      rules: (count) => Math.floor(count / 3) * 2 + (count % 3),
+    },
+    vga: {
+      price: 30.00,
+    },
+  };
+  

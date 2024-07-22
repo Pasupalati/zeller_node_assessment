@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { checkout } from '../controllers/checkoutController';
+import checkoutHandler from '../controllers/checkoutController'; // Correct import
 
 const router = Router();
 
-router.post('/checkout', checkout);
+router.post('/checkout', checkoutHandler);
 
 export default router;
