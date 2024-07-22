@@ -1,0 +1,4 @@
+--require ts-node/register
+--require tsconfig-paths/register
+--loader ts-node/esm
+tests/**/*.test.ts
